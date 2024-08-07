@@ -1,0 +1,136 @@
+package work;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class file_manipulation_basic_java {
+
+	public static void main(String[] args) {
+		Boolean loop = true;
+		while (loop == true) {
+			System.out.println(
+					"操作したいメモを選択してください--------------------\n"
+							+ "1:日記帳\n"
+							+ "2:学習用ノート\n"
+							+ "3:メモ帳\n"
+							+ "9:プログラム終了\n");
+			Scanner scan = new Scanner(System.in);
+			int memo_number = scan.nextInt();
+			String memo_type = "";
+
+			if (memo_number == 9) {
+				System.out.println("プログラムを終了します");
+				loop = false;
+			} else {
+				switch (memo_number) {
+				case 1: {
+					memo_type = ("c:\\Project\\memo1.txt");
+					break;
+				}
+				case 2: {
+					memo_type = ("c:\\Project\\memo2.txt");
+					break;
+				}
+				case 3: {
+					memo_type = ("c:\\Project\\memo3.txt");
+					break;
+				}
+				default:{
+					System.out.println("無効な選択肢です");
+					continue;
+				}
+				}
+
+				System.out.println("行う操作を選択してください\n"
+						+ "1:追記  2:上書き  3:内容削除  4:内容表示\n");
+
+				Scanner scan2 = new Scanner(System.in);
+				int operation_number = scan.nextInt();
+
+				switch (operation_number) {
+				case 1: {
+					System.out.println("書き込む内容を入力してください >> ");
+					try (FileWriter fw = new FileWriter(memo_type, true);
+							BufferedWriter bw = new BufferedWriter(fw)) {
+
+						Scanner scanner = new Scanner(System.in);
+						String input = scanner.nextLine();
+
+						fw.write(input);
+						fw.write("\n"); // 改行文字
+						fw.flush();
+
+						System.out.println("操作を完了しました");
+						System.out.println("");
+
+						break;
+
+					} catch (IOException e) {
+						System.out.println("ファイル書き込みエラーです");
+					}
+				}
+				case 2: {
+					System.out.println("書き込む内容を入力してください >> ");
+					try (FileWriter fw = new FileWriter(memo_type, false);
+							BufferedWriter bw = new BufferedWriter(fw)) {
+
+						Scanner scanner = new Scanner(System.in);
+						String input = scanner.nextLine();
+
+						fw.write(input);
+						fw.write("\n"); // 改行文字
+						fw.flush();
+
+						System.out.println("操作を完了しました");
+						System.out.println("");
+
+						break;
+					} catch (IOException e) {
+						System.out.println("ファイル書き込みエラーです");
+					}
+				}
+				case 3: {
+					System.out.println("テキストの内容を削除します");
+					try {
+						FileWriter fw = new FileWriter(memo_type, false);
+						fw.flush();
+						System.out.println("操作を完了しました");
+						System.out.println("");
+
+						break;
+					} catch (IOException e) {
+						System.out.println("ファイル書き込みエラーです");
+					}
+
+				}
+				case 4: {
+					System.out.println("[メモの内容]-------------------------------------");
+					try (FileReader fr = new FileReader(memo_type);
+							BufferedReader br = new BufferedReader(fr);) {
+						String lineStr = br.readLine();
+
+						while (lineStr != null) {
+							System.out.println(lineStr);
+							lineStr = br.readLine();
+						}
+						System.out.println("-------------------------------------------------");
+
+						System.out.println("操作を完了しました");
+						System.out.println("");
+
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
+				}
+				}
+			}
+		}
+
+	}
+
+}
